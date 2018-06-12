@@ -25,16 +25,6 @@
 	*/
 	if ( get_bloginfo('version') < 3.3 ) return;
 	
-	// This is the secret key for API authentication.
-	if(!defined('RW_SECRET_KEY')){
-		define('RW_SECRET_KEY', '5ad860ff15b435.76265870');
-	}
-
-	// This is the URL where API query request will be sent to.
-	if(!defined('RW_SERVER_URL')){
-		define('RW_SERVER_URL', 'https://code.recuweb.com');
-	}
-
 	// Load plugin class files
 	require_once( 'includes/class-woocommerce-book-chapter-tab.php' );
 	require_once( 'includes/class-woocommerce-book-chapter-tab-settings.php' );
@@ -42,7 +32,6 @@
 	// Load plugin libraries
 	require_once( 'includes/lib/class-woocommerce-book-chapter-tab-admin-api.php' );
 	require_once( 'includes/lib/class-woocommerce-book-chapter-tab-admin-notices.php' );
-	require_once( 'includes/lib/class-woocommerce-book-chapter-tab-license.php' );
 	require_once( 'includes/lib/class-woocommerce-book-chapter-tab-post-type.php' );
 	require_once( 'includes/lib/class-woocommerce-book-chapter-tab-taxonomy.php' );		
 	

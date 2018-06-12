@@ -96,10 +96,7 @@ class WooCommerce_Book_Chapter_Tab_Settings {
 		
 		//add menu in wordpress dashboard
 		
-		if( $this->parent->license->is_valid() ){
-			
-
-		}
+		
 	}
 
 	/**
@@ -138,41 +135,21 @@ class WooCommerce_Book_Chapter_Tab_Settings {
 	 * @return array Fields to be displayed on settings page
 	 */
 	private function settings_fields () {
-		
-		if( $this->parent->license->is_valid() ){
-			
-			$settings['license'] = array(
-				'title'					=> __( 'License', 'woocommerce-book-chapter-tab' ),
-				'description'			=> __( '', 'woocommerce-book-chapter-tab' ),
-				'fields'				=> array(
-					array(
-						'label'			=> 'License Key',
-						'id'			=> 'license_key',
-						'type'			=> 'license',
-						'description'	=> '',
-					)
-				),
-				'submit' => false,
-			);
-		}
-		else{
-			
-			$settings['license'] = array(
-				'title'					=> __( 'Activate License', 'woocommerce-book-chapter-tab' ),
-				'description'			=> __( 'Please enter the license key for this product to activate it. You were given a license key when you purchased this item.', 'woocommerce-book-chapter-tab' ),
-				'fields'				=> array(
-					array(
-						'label'			=> 'License Key',
-						'id'			=> 'license_key',
-						'type'			=> 'license',
-						'description'	=> '',
-					)
-				),
-				'submit' => false,
-			);			
-		}
 
-
+		$settings['license'] = array(
+			'title'					=> __( 'Activate License', 'woocommerce-book-chapter-tab' ),
+			'description'			=> __( 'Please enter the license key for this product to activate it. You were given a license key when you purchased this item.', 'woocommerce-book-chapter-tab' ),
+			'fields'				=> array(
+				array(
+					'label'			=> 'License Key',
+					'id'			=> 'license_key',
+					'type'			=> 'license',
+					'description'	=> '',
+				)
+			),
+			'submit' => false,
+		);
+			
 		$settings = apply_filters( $this->parent->_token . '_settings_fields', $settings );
 
 		return $settings;
@@ -245,6 +222,7 @@ class WooCommerce_Book_Chapter_Tab_Settings {
 		
 		// Build page HTML
 		$html = '<div class="wrap" id="' . $this->parent->_token . '_settings">' . "\n";
+			
 			$html .= '<h2>' . __( $plugin_data['Name'] , 'woocommerce-book-chapter-tab' ) . '</h2>' . "\n";
 
 			$tab = '';
@@ -286,42 +264,21 @@ class WooCommerce_Book_Chapter_Tab_Settings {
 
 				$html .= '</h2>' . "\n";
 			}
+			
+			// Get premium view
 
-			$html .= '<form method="post" action="options.php" enctype="multipart/form-data">' . "\n";
-
-				// Get settings fields
+			$premium_tab_template = $this->parent->views . $this->parent->_dev . '/premium.php';
+			
+			if( file_exists( $premium_tab_template ) ) {
+				
 				ob_start();
-				settings_fields( $this->parent->_token . '_settings' );
-				do_settings_sections( $this->parent->_token . '_settings' );
+				
+				include_once( $premium_tab_template );
+				
 				$html .= ob_get_clean();
-				
-				if( isset($_GET['tab']) && $_GET['tab'] == 'license' ){
-					
-					//do nothing
-				}
-				elseif( count($this->settings) > 1 ){
-
-					$html .= '<p class="submit">' . "\n";
-						$html .= '<input type="hidden" name="tab" value="' . esc_attr( $tab ) . '" />' . "\n";
-						$html .= '<input name="Submit" type="submit" class="button-primary" value="' . esc_attr( __( 'Save Settings' , 'user-session-synchronizer' ) ) . '" />' . "\n";
-					$html .= '</p>' . "\n";
-				}
-				
-			$html .= '</form>' . "\n";
-		$html .= '</div>' . "\n";
-			
-		// Get premium view
-
-		$premium_tab_template = $this->parent->views . $this->parent->_dev . '/premium.php';
+			}
 		
-		if( file_exists( $premium_tab_template ) ) {
-			
-			ob_start();
-			
-			include_once( $premium_tab_template );
-			
-			$html .= ob_get_clean();
-		}
+		$html .= '</div>';
 
 		echo $html;
 	}

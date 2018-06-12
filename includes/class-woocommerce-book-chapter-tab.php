@@ -104,167 +104,155 @@ class WooCommerce_Book_Chapter_Tab {
 	public $priority 	= 20;
 	 
 	public function __construct ( $file = '', $version = '1.0.0' ) {
-
-		$this->_version = $version;
-		$this->_token 	= 'woocommerce-book-chapter-tab';
-		$this->_base 	= 'wbch_';
 		
-		$this->premium_url = 'https://code.recuweb.com/download/woocommerce-book-chapter-tab/';
 
-		// Load plugin environment variables
-		$this->file 		= $file;
-		$this->dir 			= dirname( $this->file );
-		$this->views   		= trailingslashit( $this->dir ) . 'views';
-		$this->assets_dir 	= trailingslashit( $this->dir ) . 'assets';
-		$this->assets_url 	= esc_url( trailingslashit( plugins_url( '/assets/', $this->file ) ) );
-
-		$this->script_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
-		WooCommerce_Book_Chapter_Tab::$plugin_prefix = $this->_base;
-		WooCommerce_Book_Chapter_Tab::$plugin_basefile = $this->file;
-		WooCommerce_Book_Chapter_Tab::$plugin_url = plugin_dir_url($this->file); 
-		WooCommerce_Book_Chapter_Tab::$plugin_path = trailingslashit($this->dir);
-
-		// register plugin activation hook
-		
-		//register_activation_hook( $this->file, array( $this, 'install' ) );
-
-		// Load frontend JS & CSS
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 10 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );
-
-		// Load admin JS & CSS
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 10, 1 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ), 10, 1 );
-
-		// Load API for generic admin functions
-		
-		$this->admin = new WooCommerce_Book_Chapter_Tab_Admin_API($this);
-		
-		$this->license = new WooCommerce_Book_Chapter_Tab_License($this);
-		
-		if( $this->license->is_valid() ){
-
-			// get premium options
+			$this->_version = $version;
+			$this->_token 	= 'woocommerce-book-chapter-tab';
+			$this->_base 	= 'wbch_';
 			
-			$this->title 		= get_option('wbch_tab_title','Chapters');
-			$this->priority 	= get_option('wbch_tab_priority',20);
-			$this->accordion 	= get_option('wbch_enable_accordion','yes');
-			$this->showEmpty 	= get_option('wbch_show_empty','yes');		
-			$this->showDots 	= get_option('wbch_show_dots','yes');		
-		}
+			$this->premium_url = 'https://code.recuweb.com/download/woocommerce-book-chapter-tab/';
 
-		/* Localisation */
-		
-		$locale = apply_filters('plugin_locale', get_locale(), 'woocommerce-book-chapter-tab');
-		load_textdomain('wc_book_chapter', WP_PLUGIN_DIR . "/".plugin_basename(dirname(__FILE__)).'/lang/wc_book_chapter-'.$locale.'.mo');
-		load_plugin_textdomain('wc_book_chapter', false, dirname(plugin_basename(__FILE__)).'/lang/');
-		
-		add_action('woocommerce_init', array($this, 'init'));
-		
-		$this->woo_settings = array(
+			// Load plugin environment variables
+			$this->file 		= $file;
+			$this->dir 			= dirname( $this->file );
+			$this->views   		= trailingslashit( $this->dir ) . 'views';
+			$this->assets_dir 	= trailingslashit( $this->dir ) . 'assets';
+			$this->assets_url 	= esc_url( trailingslashit( plugins_url( '/assets/', $this->file ) ) );
+
+			$this->script_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+			WooCommerce_Book_Chapter_Tab::$plugin_prefix = $this->_base;
+			WooCommerce_Book_Chapter_Tab::$plugin_basefile = $this->file;
+			WooCommerce_Book_Chapter_Tab::$plugin_url = plugin_dir_url($this->file); 
+			WooCommerce_Book_Chapter_Tab::$plugin_path = trailingslashit($this->dir);
+
+			// register plugin activation hook
 			
-			array(
+			//register_activation_hook( $this->file, array( $this, 'install' ) );
+
+			// Load frontend JS & CSS
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 10 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );
+
+			// Load admin JS & CSS
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 10, 1 );
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ), 10, 1 );
+
+			// Load API for generic admin functions
 			
-				'name' 	=> __( 'Book Chapter Tab', 'wc_book_chapter' ),
-				'type' 	=> 'title',
-				'desc' 	=> '',
-				'id' 	=> 'product_book_chapter_tab'
-			),
-			array(  
-				'name' => __('Tab Name', 'wc_book_chapter'),
-				'desc' 		=> __('The name of the tab in the product page', 'wc_book_chapter'),
-				'id' 		=> 'wbch_tab_title',
-				'type' 		=> 'text',
-				'default'	=> __('Chapters', 'wc_book_chapter'),
-			),
-			array(  
-				'name' => __('Tab Position', 'wc_book_chapter'),
-				'desc' 		=> __('The position of the tab in the list', 'wc_book_chapter'),
-				'id' 		=> 'wbch_tab_priority',
-				'type' 		=> 'number',
-				'default'	=> 20,
-			),
-			array(  
-				'name' => __('Enable Accordion', 'wc_book_chapter'),
-				'desc' 		=> __('Enable Accordion for chapters in the tab', 'wc_book_chapter'),
-				'id' 		=> 'wbch_enable_accordion',
-				'default' 	=> 'yes',
-				'type' 		=> 'checkbox',
-			),
-			array(  
-				'name' => __('Show Empty Tab', 'wc_book_chapter'),
-				'desc' 		=> __('Show empty table of content', 'wc_book_chapter'),
-				'id' 		=> 'wbch_show_empty',
-				'default' 	=> 'no',
-				'type' 		=> 'checkbox',
-			),
-			array(  
-				'name' => __('Show Dotted Line', 'wc_book_chapter'),
-				'desc' 		=> __('Show a line of dots between section and page number', 'wc_book_chapter'),
-				'id' 		=> 'wbch_show_dots',
-				'default' 	=> 'yes',
-				'type' 		=> 'checkbox',
-			),
-			array(
+			$this->admin = new WooCommerce_Book_Chapter_Tab_Admin_API($this);
+
+			/* Localisation */
 			
-				'title' 		=> __( 'Header background color', 'wc_book_chapter' ),
-				'type' 			=> 'text',
-				'description' 	=> __( 'Default background color of the accordion header', 'wc_book_chapter' ),
-				'class' 		=> 'colorpick',
-				'default' 		=> '#ccc',
-				'id' 			=> 'wbch_head_bkg_color'
-			),
-			array(
+			$locale = apply_filters('plugin_locale', get_locale(), 'woocommerce-book-chapter-tab');
+			load_textdomain('wc_book_chapter', WP_PLUGIN_DIR . "/".plugin_basename(dirname(__FILE__)).'/lang/wc_book_chapter-'.$locale.'.mo');
+			load_plugin_textdomain('wc_book_chapter', false, dirname(plugin_basename(__FILE__)).'/lang/');
 			
-				'title' 		=> __( 'Header text color', 'wc_book_chapter' ),
-				'type' 			=> 'text',
-				'description' 	=> __( 'Default text color of the accordion header', 'wc_book_chapter' ),
-				'class' 		=> 'colorpick',
-				'default' 		=> '#000',
-				'id' 			=> 'wbch_head_txt_color'
-			),
-			array(
+			add_action('woocommerce_init', array($this, 'init'));
 			
-				'title' 		=> __( 'Opened header background color', 'wc_book_chapter' ),
-				'type' 			=> 'text',
-				'description' 	=> __( 'Background color of the opened accordion header', 'wc_book_chapter' ),
-				'class' 		=> 'colorpick',
-				'default' 		=> '#000',
-				'id' 			=> 'wbch_op_head_bkg_color'
-			),
-			array(
+			$this->woo_settings = array(
+				
+				array(
+				
+					'name' 	=> __( 'Book Chapter Tab', 'wc_book_chapter' ),
+					'type' 	=> 'title',
+					'desc' 	=> '',
+					'id' 	=> 'product_book_chapter_tab'
+				),
+				array(  
+					'name' => __('Tab Name', 'wc_book_chapter'),
+					'desc' 		=> __('The name of the tab in the product page', 'wc_book_chapter'),
+					'id' 		=> 'wbch_tab_title',
+					'type' 		=> 'text',
+					'default'	=> __('Chapters', 'wc_book_chapter'),
+				),
+				array(  
+					'name' => __('Tab Position', 'wc_book_chapter'),
+					'desc' 		=> __('The position of the tab in the list', 'wc_book_chapter'),
+					'id' 		=> 'wbch_tab_priority',
+					'type' 		=> 'number',
+					'default'	=> 20,
+				),
+				array(  
+					'name' => __('Enable Accordion', 'wc_book_chapter'),
+					'desc' 		=> __('Enable Accordion for chapters in the tab', 'wc_book_chapter'),
+					'id' 		=> 'wbch_enable_accordion',
+					'default' 	=> 'yes',
+					'type' 		=> 'checkbox',
+				),
+				array(  
+					'name' => __('Show Empty Tab', 'wc_book_chapter'),
+					'desc' 		=> __('Show empty table of content', 'wc_book_chapter'),
+					'id' 		=> 'wbch_show_empty',
+					'default' 	=> 'no',
+					'type' 		=> 'checkbox',
+				),
+				array(  
+					'name' => __('Show Dotted Line', 'wc_book_chapter'),
+					'desc' 		=> __('Show a line of dots between section and page number', 'wc_book_chapter'),
+					'id' 		=> 'wbch_show_dots',
+					'default' 	=> 'yes',
+					'type' 		=> 'checkbox',
+				),
+				array(
+				
+					'title' 		=> __( 'Header background color', 'wc_book_chapter' ),
+					'type' 			=> 'text',
+					'description' 	=> __( 'Default background color of the accordion header', 'wc_book_chapter' ),
+					'class' 		=> 'colorpick',
+					'default' 		=> '#ccc',
+					'id' 			=> 'wbch_head_bkg_color'
+				),
+				array(
+				
+					'title' 		=> __( 'Header text color', 'wc_book_chapter' ),
+					'type' 			=> 'text',
+					'description' 	=> __( 'Default text color of the accordion header', 'wc_book_chapter' ),
+					'class' 		=> 'colorpick',
+					'default' 		=> '#000',
+					'id' 			=> 'wbch_head_txt_color'
+				),
+				array(
+				
+					'title' 		=> __( 'Opened header background color', 'wc_book_chapter' ),
+					'type' 			=> 'text',
+					'description' 	=> __( 'Background color of the opened accordion header', 'wc_book_chapter' ),
+					'class' 		=> 'colorpick',
+					'default' 		=> '#000',
+					'id' 			=> 'wbch_op_head_bkg_color'
+				),
+				array(
+				
+					'title' 		=> __( 'Opened header text color', 'wc_book_chapter' ),
+					'type' 			=> 'text',
+					'description' 	=> __( 'Default text color of the opened accordion header', 'wc_book_chapter' ),
+					'class' 		=> 'colorpick',
+					'default' 		=> '#fff',
+					'id' 			=> 'wbch_op_head_txt_color'
+				),			
+				array(
+					'title' 		=> __( 'Header border top color', 'wc_book_chapter' ),
+					'type' 			=> 'text',
+					'description' 	=> __( 'Color of the accordion header border', 'wc_book_chapter' ),
+					'class' 		=> 'colorpick',
+					'default' 		=> '#f0f0f0',
+					'id' 			=> 'wbch_bd_top_color'
+				),
+				array(
+				
+					'title' 		=> __( 'Body background color', 'wc_book_chapter' ),
+					'type' 			=> 'text',
+					'description' 	=> __( 'Background color of the accordion body', 'wc_book_chapter' ),
+					'class' 		=> 'colorpick',
+					'default' 		=> '#fff',
+					'id' 			=> 'wbch_body_bkg_color'
+				),
+				array(
+					'type' 	=> 'sectionend',
+					'id' 	=> 'product_book_chapter_tab'
+				),
+			);
 			
-				'title' 		=> __( 'Opened header text color', 'wc_book_chapter' ),
-				'type' 			=> 'text',
-				'description' 	=> __( 'Default text color of the opened accordion header', 'wc_book_chapter' ),
-				'class' 		=> 'colorpick',
-				'default' 		=> '#fff',
-				'id' 			=> 'wbch_op_head_txt_color'
-			),			
-			array(
-				'title' 		=> __( 'Header border top color', 'wc_book_chapter' ),
-				'type' 			=> 'text',
-				'description' 	=> __( 'Color of the accordion header border', 'wc_book_chapter' ),
-				'class' 		=> 'colorpick',
-				'default' 		=> '#f0f0f0',
-				'id' 			=> 'wbch_bd_top_color'
-			),
-			array(
-			
-				'title' 		=> __( 'Body background color', 'wc_book_chapter' ),
-				'type' 			=> 'text',
-				'description' 	=> __( 'Background color of the accordion body', 'wc_book_chapter' ),
-				'class' 		=> 'colorpick',
-				'default' 		=> '#fff',
-				'id' 			=> 'wbch_body_bkg_color'
-			),
-			array(
-				'type' 	=> 'sectionend',
-				'id' 	=> 'product_book_chapter_tab'
-			),
-		);
-		
 	} // End __construct ()
 
 	/**
@@ -277,14 +265,6 @@ class WooCommerce_Book_Chapter_Tab {
 			// backend
 			
 			add_filter('plugin_row_meta', array($this, 'add_support_link'), 10, 2);
-			
-			if( $this->license->is_valid() ){
-			
-				// Settings
-			
-				add_action('woocommerce_settings_catalog_options_after', array($this, 'book_chapter_admin_settings'));
-				add_action('woocommerce_update_options', array($this, 'save_book_chapter_admin_settings'));			
-			}
 			
 			// Product options
 			
@@ -306,11 +286,6 @@ class WooCommerce_Book_Chapter_Tab {
 			//frontend
 			
 			add_filter('woocommerce_product_tabs', array($this, 'chapters'));
-			
-			if( $this->license->is_valid() ){
-				
-	
-			}
 		}
 		else{		
 			
@@ -596,37 +571,10 @@ class WooCommerce_Book_Chapter_Tab {
 								$section = strip_tags($section);
 
 								if( !empty($section) ){
-									
-									$page = '';
-									
-									if( isset($pages[$j]) ){
-										
-										$page = $pages[$j];
-									}
-									
-									$url = '';
-									
-									if( isset($urls[$j]) ){
-									
-										$url = $urls[$j];
-									}									
-									
+
 									echo '<li class="wbch-section"'.( $this->showDots == 'yes' ? ' style="background: url(' . $this->assets_url . 'images/dot.png) center center repeat-x;"' : '' ) . '>';
 										
-
-										if( $this->license->is_valid() && !empty($url) ){
-											
-											echo '<a style="float:left;padding-right:5px;" href="'.$url.'">' . $section . '</a>';
-										}
-										else{
-											
-											echo '<span style="float:left;padding-right:5px;">' . $section . '</span>';
-										}
-										
-										if( $this->license->is_valid() && !empty($page) ){
-										
-											echo '<span style="float:right;padding-left:5px;">'.$page.'</span>';
-										}
+										echo '<span style="float:left;padding-right:5px;">' . $section . '</span>';
 										
 									echo '</li>';
 								}
@@ -685,27 +633,7 @@ class WooCommerce_Book_Chapter_Tab {
 		
 		wp_register_style( $this->_token . '-frontend', esc_url( $this->assets_url ) . 'css/frontend-1.0.1.css', array(), $this->_version );
 		wp_enqueue_style( $this->_token . '-frontend' );		
-		
-		if( $this->license->is_valid() ){
-		
-			wp_register_style( $this->_token . '-custom-style', false );
-			wp_enqueue_style( $this->_token . '-custom-style' );
-			wp_add_inline_style( $this->_token . '-custom-style', '
-				.wbch-accordion {
-					border-top: '.get_option('wbch_bd_top_color','#f0f0f0').' 1px solid;
-					background: '.( $this->accordion == 'yes' ? get_option('wbch_head_bkg_color','#ccc') : get_option('wbch_op_head_bkg_color','#000') ).';
-					color: '.( $this->accordion == 'yes' ? get_option('wbch_head_txt_color','#000') : get_option('wbch_op_head_txt_color','#fff') ).';
-				}			
-				.accordion-open {
-					background: '.get_option('wbch_op_head_bkg_color','#000').';
-					color: '.get_option('wbch_op_head_txt_color','#fff').';
-				}
-				.wbch-section a, .wbch-section span{
-					background: '.get_option('wbch_body_bkg_color','#fff').';
-				}
-			');
-		}
-		
+
 	} // End enqueue_styles ()
 
 	/**

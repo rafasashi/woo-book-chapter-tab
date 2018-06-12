@@ -172,35 +172,7 @@ class WooCommerce_Book_Chapter_Tab_Admin_API {
 			    </div>
 			    <?php
 			break;
-			
-			case 'license':
-				
-				if( !empty($data) ){
-				
-					$is_valid = $this->parent->license->is_valid();
-				}
-				else{
-					
-					$is_valid = false;
-				}
-			
-				echo '<input class="regular-text" type="text" id="' . esc_attr( $option_name ) . '" name="' . esc_attr( $option_name ) . '"  value="' . $data . '" ' . ( $is_valid ? 'disabled' : '') . '>';
-				echo '<p class="submit">';
-								
-					if( !$is_valid ){
-						
-						echo '<input type="submit" name="activate_license" value="Activate" class="button-primary" />';
-					}
-					else{
-						
-						echo '<input type="hidden" name="' . esc_attr( $option_name ) . '" value="'.$data.'" />';
-						echo '<input type="submit" name="deactivate_license" value="Deactivate" class="button" />';
-					}
-					
-				echo '</p>';				
-					 
-			break;
-			
+
 			case 'chapter_section':
 			
 				if( !isset($data['chapter'][0]) || !isset($data['sections'][0]) || !empty($data['chapter'][0]) || !empty($data['sections'][0]) ){
@@ -230,22 +202,15 @@ class WooCommerce_Book_Chapter_Tab_Admin_API {
 					$data = $arr;
 				}
 				
-				$html .= '<div id="'.$field['id'].'" class="'. ( $this->parent->license->is_valid() ? 'sortable' : 'unsortable').'">';
+				$html .= '<div id="'.$field['id'].'" class="unsortable">';
 					
 					$html .= ' <a href="#" class="wbch-add-input-group" data-target="'.$field['id'].'-row" style="line-height:40px;">Add chapter</a>';
 				
-					$html .= '<ul class="input-group'. ( $this->parent->license->is_valid() ? ' ui-sortable' : ' ui-unsortable').'">';
+					$html .= '<ul class="input-group ui-unsortable">';
 						
 						foreach( $data['chapter'] as $e => $chapter) {
 
-							if( $e > 0 && $this->parent->license->is_valid() ){
-								
-								$class='input-group-row'. ( $this->parent->license->is_valid() ? ' ui-state-default ui-sortable-handle' : '');
-							}
-							else{
-								
-								$class='input-group-row'. ( $this->parent->license->is_valid() ? ' ui-state-default ui-state-disabled' : '');
-							}
+							$class='input-group-row';
 							
 							$sections = $pages = $urls = '';
 							
@@ -266,7 +231,7 @@ class WooCommerce_Book_Chapter_Tab_Admin_API {
 								
 							$html .= '<li class="'.$class.' '.$field['id'].'-row" style="display:'.( $e == 0 ? 'none' : 'inline-block' ).';width:97%;background: rgb(255, 255, 255);">';
 						
-								$html .= '<div style="width:100%;display:inline-block;'.( $this->parent->license->is_valid() ? 'background-image: url(' . $this->parent->assets_url . 'images/dnd-icon.png?3);background-position-y:5px;background-position-x:right;background-repeat: no-repeat;background-color: transparent;' : '' ).'">';
+								$html .= '<div style="width:100%;display:inline-block;">';
 						
 									$html .= '<input type="text" placeholder="Chapter" style="width:80%;margin-bottom:5px;" name="'.$option_name.'[chapter][][name]" value="'.$data['chapter'][$e].'">';
 									
@@ -278,86 +243,10 @@ class WooCommerce_Book_Chapter_Tab_Admin_API {
 								$html .= '</div>';
 								
 								$html .= '<div style="width:100%;padding: 0 12px;">';
-									
-									if( $this->parent->license->is_valid() ){
-										
-										$html .= ' <a href="#" class="wbch-add-input-group-section" data-target="'.$field['id'].'-section-row" style="font-size: 11px;line-height:40px;border-color:#ccc;background: #f7f7f7;box-shadow: 0 1px 0 #ccc;vertical-align: top;padding: 2px 8px;border-radius: 3px;">Add section</a>';
-										
-										$html .= '<div class="input-group-section">';
-										
-											if( is_string($sections) ){
-												
-												if( !empty($sections) ){
-													
-													$sections = array_merge(array( 0 => ''),explode(PHP_EOL,$sections));
-												}
-												else{
-													
-													$sections = array( 0 => '');
-												}
-												
-											}
-											
-											if( is_string($pages) ){
-												
-												if( !empty($pages) ){
-													
-													$pages = array_merge(array( 0 => ''),explode(PHP_EOL,$pages));
-												}
-												else{
-													
-													$pages = array( 0 => '');
-												}
-											}
-											
-											if( is_string($urls) ){
-												
-												if( !empty($urls) ){
-													
-													$urls = array_merge(array( 0 => ''),explode(PHP_EOL,$urls));
-												}
-												else{
-													
-													$urls = array( 0 => '');
-												}
-											}
-											
-											foreach( $sections as $i => $section ){
-												
-												if( $i > 0 ){
-													
-													$class='input-group-section-row'. ( $this->parent->license->is_valid() ? '' : '');
-												}
-												else{
-													
-													$class='input-group-section-row'. ( $this->parent->license->is_valid() ? '' : '');
-												}											
-												
-												$html .= '<div class="'.$class.' '.$field['id'].'-section-row" style="display:'.( $i == 0 ? 'none' : 'inline-block' ).';width:97%;background: rgb(255, 255, 255);">';
-												
-													$html .= '<input type="text" placeholder="Section" style="width:40%;float:left;margin-bottom:5px;height:27px;margin-right: 5px;" name="'.$option_name.'[chapter][][section]" value="'.$section.'"/>';
-													$html .= '<input type="url" placeholder="http://" style="width:30%;float:left;margin-bottom:5px;height:27px;margin-right: 5px;" name="'.$option_name.'[chapter][][url]" value="'.( isset($urls[$i]) ? $urls[$i] : '' ).'"/>';
-													$html .= '<input type="number" min="1" placeholder="page" style="width:10%;float:left;margin-bottom:5px;height:27px;margin-right: 5px;" name="'.$option_name.'[chapter][][page]" value="'.( isset($pages[$i]) ? $pages[$i] : '' ).'"/>';
-												
-													if( $i > 0 ){ 
-														
-														$html .= '<a class="move-up-input-group-section input-group-section-btn" href="#">↑</a> ';
-														$html .= '<a class="move-down-input-group-section input-group-section-btn" href="#">↓</a> ';
-														$html .= '<a class="remove-input-group-section input-group-section-btn" href="#">x</a> ';
-													}
-																	
-												$html .= '</div>';
-											}
-										
-										$html .= '</div>';
-									}
-									else{
-										
-										$html .= '<textarea'.( $e > 0 ? ' id="'.$field['id'].'-content-'.$e.'"' : '' ).' placeholder="Sections (one per line)" name="'.$option_name.'[sections][]" style="width:75%;height:150px;">' . $sections . '</textarea>';
-										$html .= '<input type="hidden" name="'.$option_name.'[pages][]" value="'.$pages.'"/>';
-										$html .= '<input type="hidden" name="'.$option_name.'[urls][]" value="'.$urls.'"/>';
-									}
-									
+				
+									$html .= '<textarea'.( $e > 0 ? ' id="'.$field['id'].'-content-'.$e.'"' : '' ).' placeholder="Sections (one per line)" name="'.$option_name.'[sections][]" style="width:75%;height:150px;">' . $sections . '</textarea>';
+									$html .= '<input type="hidden" name="'.$option_name.'[pages][]" value="'.$pages.'"/>';
+									$html .= '<input type="hidden" name="'.$option_name.'[urls][]" value="'.$urls.'"/>';
 
 								$html .= '</div>';
 
