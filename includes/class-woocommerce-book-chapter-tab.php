@@ -20,7 +20,7 @@ class WooCommerce_Book_Chapter_Tab {
 	 * @access  public
 	 * @since   1.0.0
 	 */
-	public $license = null;
+
 	public $notices = null;
 	public $settings = null;
 

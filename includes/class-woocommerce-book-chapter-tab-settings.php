@@ -136,23 +136,7 @@ class WooCommerce_Book_Chapter_Tab_Settings {
 	 */
 	private function settings_fields () {
 
-		$settings['license'] = array(
-			'title'					=> __( 'Activate License', 'woocommerce-book-chapter-tab' ),
-			'description'			=> __( 'Please enter the license key for this product to activate it. You were given a license key when you purchased this item.', 'woocommerce-book-chapter-tab' ),
-			'fields'				=> array(
-				array(
-					'label'			=> 'License Key',
-					'id'			=> 'license_key',
-					'type'			=> 'license',
-					'description'	=> '',
-				)
-			),
-			'submit' => false,
-		);
-			
-		$settings = apply_filters( $this->parent->_token . '_settings_fields', $settings );
-
-		return $settings;
+		
 	}
 
 	/**
