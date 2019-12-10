@@ -185,7 +185,7 @@ class WooCommerce_Book_Chapter_Tab_Admin_API {
 					}
 
 					if( isset($data['sections']) ){
-
+						
 						$arr['sections'] = array_merge($arr['sections'],$data['sections']);
 					}
 
@@ -210,6 +210,14 @@ class WooCommerce_Book_Chapter_Tab_Admin_API {
 						
 						foreach( $data['chapter'] as $e => $chapter) {
 
+							if(is_array($chapter)){
+								
+								if( !empty($chapter['name']) ){
+								
+									$chapter = $chapter['name'];
+								}
+							}
+							
 							$class='input-group-row';
 							
 							$sections = $pages = $urls = '';
@@ -233,7 +241,7 @@ class WooCommerce_Book_Chapter_Tab_Admin_API {
 						
 								$html .= '<div style="width:100%;display:inline-block;">';
 						
-									$html .= '<input type="text" placeholder="Chapter" style="width:80%;margin-bottom:5px;" name="'.$option_name.'[chapter][][name]" value="'.$data['chapter'][$e].'">';
+									$html .= '<input type="text" placeholder="Chapter" style="width:80%;margin-bottom:5px;" name="'.$option_name.'[chapter][]" value="'.( is_string($chapter) ? $chapter : '' ).'">';
 									
 									if( $e > 0 ){
 									
@@ -250,7 +258,7 @@ class WooCommerce_Book_Chapter_Tab_Admin_API {
 
 								$html .= '</div>';
 
-							$html .= '</li>';						
+							$html .= '</li>';	
 						}
 					
 					$html .= '</ul>';					

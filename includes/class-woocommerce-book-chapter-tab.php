@@ -160,35 +160,35 @@ class WooCommerce_Book_Chapter_Tab {
 					'id' 	=> 'product_book_chapter_tab'
 				),
 				array(  
-					'name' => __('Tab Name', 'wc_book_chapter'),
+					'name' 		=> __('Tab Name', 'wc_book_chapter'),
 					'desc' 		=> __('The name of the tab in the product page', 'wc_book_chapter'),
 					'id' 		=> 'wbch_tab_title',
 					'type' 		=> 'text',
 					'default'	=> __('Chapters', 'wc_book_chapter'),
 				),
 				array(  
-					'name' => __('Tab Position', 'wc_book_chapter'),
+					'name' 		=> __('Tab Position', 'wc_book_chapter'),
 					'desc' 		=> __('The position of the tab in the list', 'wc_book_chapter'),
 					'id' 		=> 'wbch_tab_priority',
 					'type' 		=> 'number',
 					'default'	=> 20,
 				),
 				array(  
-					'name' => __('Enable Accordion', 'wc_book_chapter'),
+					'name' 		=> __('Enable Accordion', 'wc_book_chapter'),
 					'desc' 		=> __('Enable Accordion for chapters in the tab', 'wc_book_chapter'),
 					'id' 		=> 'wbch_enable_accordion',
 					'default' 	=> 'yes',
 					'type' 		=> 'checkbox',
 				),
 				array(  
-					'name' => __('Show Empty Tab', 'wc_book_chapter'),
+					'name' 		=> __('Show Empty Tab', 'wc_book_chapter'),
 					'desc' 		=> __('Show empty table of content', 'wc_book_chapter'),
 					'id' 		=> 'wbch_show_empty',
 					'default' 	=> 'no',
 					'type' 		=> 'checkbox',
 				),
 				array(  
-					'name' => __('Show Dotted Line', 'wc_book_chapter'),
+					'name' 		=> __('Show Dotted Line', 'wc_book_chapter'),
 					'desc' 		=> __('Show a line of dots between section and page number', 'wc_book_chapter'),
 					'id' 		=> 'wbch_show_dots',
 					'default' 	=> 'yes',
@@ -472,11 +472,19 @@ class WooCommerce_Book_Chapter_Tab {
 		if( !empty($this->tab_data['chapter']) ){
 			
 			foreach( $this->tab_data['chapter'] as $e => $chapter ){
-
-				if( !empty($chapter) ){
+			
+				if(is_array($chapter)){
+					
+					if( !empty($chapter['name']) ){
+					
+						$chapter = $chapter['name'];
+					}
+				}			
+			
+				if( !empty($chapter) && is_string($chapter) ){
 					
 					$chapters[$chapter]['sections'] = $this->tab_data['sections'][$e];
-					
+
 					if( isset($this->tab_data['pages'][$e]) ){
 						
 						$chapters[$chapter]['pages'] = $this->tab_data['pages'][$e];
@@ -489,7 +497,7 @@ class WooCommerce_Book_Chapter_Tab {
 				}
 			}
 		}
-		
+
 		return $chapters;
 	}
 	
