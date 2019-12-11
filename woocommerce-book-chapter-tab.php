@@ -3,11 +3,11 @@
  * Plugin Name: WooCommerce Book Chapter Tab
  * Plugin URI: https://code.recuweb.com/download/woocommerce-book-chapter-tab/
  * Description: Extends WooCommerce to allow you to display the Chapters and Sections of a book, ebook or documentation in a new tab on the single product page.
- * Version: 3.0.4
+ * Version: 3.0.5
  * Author: Rafasashi
  * Author URI: https://code.recuweb.com/about-us/
  * Requires at least: 4.6
- * Tested up to: 5.2.4
+ * Tested up to: 5.3
  *
  * Text Domain: wc_book_chapter
  * Domain Path: /lang/
@@ -60,9 +60,14 @@
 
 	// Checks if the WooCommerce plugins is installed and active.
 	
-	if(in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))){
+	$plugins = apply_filters('active_plugins', get_option('active_plugins'));
+	
+	if(in_array('woocommerce/woocommerce.php', $plugins)){
 		
-		WooCommerce_Book_Chapter_Tab();
+		if(!in_array('woo-book-chapter-tab-premium/woocommerce-book-chapter-tab-premium.php', $plugins)){
+			
+			WooCommerce_Book_Chapter_Tab();
+		}
 	}
 	else{
 		
