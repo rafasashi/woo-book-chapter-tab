@@ -4,7 +4,7 @@ Tags: ecommerce, e-commerce, woocommerce, book, ebook, documentation, chapter, c
 Donate link: https://code.recuweb.com/download/woocommerce-book-chapter-tab/
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 3.0.5
+Stable tag: 3.0.6
 License: GPLv3
 License URI: https://code.recuweb.com/product-licenses/
 
