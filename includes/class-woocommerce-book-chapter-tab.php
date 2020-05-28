@@ -149,6 +149,27 @@ class WooCommerce_Book_Chapter_Tab {
 			load_plugin_textdomain('wc_book_chapter', false, dirname(plugin_basename(__FILE__)).'/lang/');
 			
 			add_action('woocommerce_init', array($this, 'init'));
+		
+			add_filter('woocommerce_get_sections_products',function($sections){
+				
+				$sections['rew-tabs'] = __( 'Tabs', 'woocommerce' );
+				
+				return $sections;
+				
+			},10,1);
+			
+			add_filter('woocommerce_product_settings', function( $settings ){
+				
+				global $current_section;
+
+				if( $current_section == 'rew-tabs' ){
+					
+					return array();
+				}
+				
+				return $settings;
+				
+			},9999999999);
 			
 			$this->woo_settings = array(
 				
@@ -291,20 +312,6 @@ class WooCommerce_Book_Chapter_Tab {
 			
 			$this->notices->add_error('WooCommerce Book Chapter Tab '.__('requires at least <a href="http://www.woothemes.com/woocommerce/" target="_blank">WooCommerce ' . $this->woo_version . '</a> in order to work. Please upgrade <a href="'.admin_url('plugin-install.php?tab=search&type=term&s=WooCommerce').'" target="_blank">WooCommerce</a> first.', 'wc_book_chapter'));			
 		}
-	}
-
-	// Adds a few settings to control the images in the tab.
-	
-	function book_chapter_admin_settings(){
-		
-		global $settings;
-
-		woocommerce_admin_fields($this->woo_settings);
-	}
-
-	function save_book_chapter_admin_settings(){
-		
-		woocommerce_update_options($this->woo_settings);
 	}
 	
 	/**
