@@ -201,7 +201,7 @@
 			<div class="rew-license">
 				<p>
 					Upgrade to the <span class="highlight">premium version</span>
-					of <span class="highlight">WooCommerce Book Chapter Tab</span> to benefit from all features!
+					of <span class="highlight">Book Chapter Tab</span> to benefit from all features!
 				</p>
 				<a href="<?php echo $this->parent->premium_url; ?>" target="_blank" class="rew-license-button button btn">
 					<span class="highlight">GET LICENSE</span>
@@ -319,7 +319,7 @@
 			<div class="rew-license">
 				<p>
 					Upgrade to the <span class="highlight">premium version</span>
-					of <span class="highlight">WooCommerce Book Chapter Tab</span> to benefit from all features!
+					of <span class="highlight">Book Chapter Tab</span> to benefit from all features!
 				</p>
 				<a href="<?php echo $this->parent->premium_url; ?>" target="_blank" class="rew-license-button button btn">
 					<span class="highlight">GET LICENSE</span>

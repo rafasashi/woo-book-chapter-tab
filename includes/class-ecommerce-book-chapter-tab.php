@@ -2,10 +2,10 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class WooCommerce_Book_Chapter_Tab {
+class ECommerce_Book_Chapter_Tab {
 
 	/**
-	 * The single instance of WooCommerce_Book_Chapter_Tab.
+	 * The single instance of ECommerce_Book_Chapter_Tab.
 	 * @var 	object
 	 * @access  private
 	 * @since 	1.0.0
@@ -107,7 +107,7 @@ class WooCommerce_Book_Chapter_Tab {
 		
 
 			$this->_version = $version;
-			$this->_token 	= 'woocommerce-book-chapter-tab';
+			$this->_token 	= 'ecommerce-book-chapter-tab';
 			$this->_base 	= 'wbch_';
 			
 			$this->premium_url = 'https://code.recuweb.com/download/woocommerce-book-chapter-tab/';
@@ -117,14 +117,14 @@ class WooCommerce_Book_Chapter_Tab {
 			$this->dir 			= dirname( $this->file );
 			$this->views   		= trailingslashit( $this->dir ) . 'views';
 			$this->assets_dir 	= trailingslashit( $this->dir ) . 'assets';
-			$this->assets_url 	= esc_url( trailingslashit( plugins_url( '/assets/', $this->file ) ) );
+			$this->assets_url 	= home_url( trailingslashit( str_replace( ABSPATH, '', $this->dir ))  . 'assets/' );
 
 			$this->script_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-			WooCommerce_Book_Chapter_Tab::$plugin_prefix = $this->_base;
-			WooCommerce_Book_Chapter_Tab::$plugin_basefile = $this->file;
-			WooCommerce_Book_Chapter_Tab::$plugin_url = plugin_dir_url($this->file); 
-			WooCommerce_Book_Chapter_Tab::$plugin_path = trailingslashit($this->dir);
+			ECommerce_Book_Chapter_Tab::$plugin_prefix = $this->_base;
+			ECommerce_Book_Chapter_Tab::$plugin_basefile = $this->file;
+			ECommerce_Book_Chapter_Tab::$plugin_url = plugin_dir_url($this->file); 
+			ECommerce_Book_Chapter_Tab::$plugin_path = trailingslashit($this->dir);
 
 			// register plugin activation hook
 			
@@ -140,11 +140,11 @@ class WooCommerce_Book_Chapter_Tab {
 
 			// Load API for generic admin functions
 			
-			$this->admin = new WooCommerce_Book_Chapter_Tab_Admin_API($this);
+			$this->admin = new ECommerce_Book_Chapter_Tab_Admin_API($this);
 
 			/* Localisation */
 			
-			$locale = apply_filters('plugin_locale', get_locale(), 'woocommerce-book-chapter-tab');
+			$locale = apply_filters('plugin_locale', get_locale(), 'ecommerce-book-chapter-tab');
 			load_textdomain('wc_book_chapter', WP_PLUGIN_DIR . "/".plugin_basename(dirname(__FILE__)).'/lang/wc_book_chapter-'.$locale.'.mo');
 			load_plugin_textdomain('wc_book_chapter', false, dirname(plugin_basename(__FILE__)).'/lang/');
 			
@@ -277,7 +277,7 @@ class WooCommerce_Book_Chapter_Tab {
 	} // End __construct ()
 
 	/**
-	 * Init WooCommerce Book Chapter Tab extension once we know WooCommerce is active
+	 * Init Book Chapter Tab extension once we know ECommerce is active
 	 */
 	public function init(){
 		
@@ -310,7 +310,7 @@ class WooCommerce_Book_Chapter_Tab {
 		}
 		else{		
 			
-			$this->notices->add_error('WooCommerce Book Chapter Tab '.__('requires at least <a href="http://www.woothemes.com/woocommerce/" target="_blank">WooCommerce ' . $this->woo_version . '</a> in order to work. Please upgrade <a href="'.admin_url('plugin-install.php?tab=search&type=term&s=WooCommerce').'" target="_blank">WooCommerce</a> first.', 'wc_book_chapter'));			
+			$this->notices->add_error('Book Chapter Tab '.__('requires at least <a href="http://www.woothemes.com/woocommerce/" target="_blank">ECommerce ' . $this->woo_version . '</a> in order to work. Please upgrade <a href="'.admin_url('plugin-install.php?tab=search&type=term&s=ECommerce').'" target="_blank">ECommerce</a> first.', 'wc_book_chapter'));			
 		}
 	}
 	
@@ -459,7 +459,7 @@ class WooCommerce_Book_Chapter_Tab {
 			return $links;
 		}
 		
-		if($file == WooCommerce_Book_Chapter_Tab::$plugin_basefile){
+		if($file == ECommerce_Book_Chapter_Tab::$plugin_basefile){
 			
 			$links[] = '<a href="https://code.recuweb.com" target="_blank">'.__('Docs', 'wc_book_chapter').'</a>';
 		}
@@ -510,7 +510,7 @@ class WooCommerce_Book_Chapter_Tab {
 	
 	/**
 	 * Write the images tab on the product view page for WC 2.0+.
-	 * In WooCommerce these are handled by templates.
+	 * In ECommerce these are handled by templates.
 	 */
 	public function chapters($tabs){
 		
@@ -524,7 +524,7 @@ class WooCommerce_Book_Chapter_Tab {
 
 			$tabs['chapters'] = array(
 			
-				'title'    => __($this->title, 'woocommerce-book-chapter-tab').' ('.$countItems.')',
+				'title'    => __($this->title, 'ecommerce-book-chapter-tab').' ('.$countItems.')',
 				'priority' => $this->priority,
 				'callback' => array($this, 'book_chapters_panel')
 			);
@@ -535,7 +535,7 @@ class WooCommerce_Book_Chapter_Tab {
 
 	/**
 	 * Write the images tab panel on the product view page.
-	 * In WooCommerce these are handled by templates.
+	 * In ECommerce these are handled by templates.
 	 */
 	public function book_chapters_panel(){
 		
@@ -589,7 +589,7 @@ class WooCommerce_Book_Chapter_Tab {
 
 									echo '<li class="wbch-section"'.( $this->showDots == 'yes' ? ' style="background: url(' . $this->assets_url . 'images/dot.png) center center repeat-x;"' : '' ) . '>';
 										
-										echo '<span style="float:left;padding-right:5px;">' . $section . '</span>';
+										echo '<span style="padding-right:5px;">' . $section . '</span>';
 										
 									echo '</li>';
 								}
@@ -616,7 +616,7 @@ class WooCommerce_Book_Chapter_Tab {
 
 		if ( ! $post_type || ! $plural || ! $single ) return;
 
-		$post_type = new WooCommerce_Book_Chapter_Tab_Post_Type( $post_type, $plural, $single, $description, $options );
+		$post_type = new ECommerce_Book_Chapter_Tab_Post_Type( $post_type, $plural, $single, $description, $options );
 
 		return $post_type;
 	}
@@ -633,7 +633,7 @@ class WooCommerce_Book_Chapter_Tab {
 
 		if ( ! $taxonomy || ! $plural || ! $single ) return;
 
-		$taxonomy = new WooCommerce_Book_Chapter_Tab_Taxonomy( $taxonomy, $plural, $single, $post_types, $taxonomy_args );
+		$taxonomy = new ECommerce_Book_Chapter_Tab_Taxonomy( $taxonomy, $plural, $single, $post_types, $taxonomy_args );
 
 		return $taxonomy;
 	}
@@ -646,9 +646,12 @@ class WooCommerce_Book_Chapter_Tab {
 	 */
 	public function enqueue_styles () {
 		
-		wp_register_style( $this->_token . '-frontend', esc_url( $this->assets_url ) . 'css/frontend-1.0.1.css', array(), $this->_version );
-		wp_enqueue_style( $this->_token . '-frontend' );		
-
+		if( is_product() ){
+			
+			wp_register_style( $this->_token . '-frontend', esc_url( $this->assets_url ) . 'css/frontend-1.0.1.css', array(), $this->_version );
+			wp_enqueue_style( $this->_token . '-frontend' );		
+		}
+		
 	} // End enqueue_styles ()
 
 	/**
@@ -659,13 +662,16 @@ class WooCommerce_Book_Chapter_Tab {
 	 */
 	public function enqueue_scripts () {
 		
-		if( $this->accordion == 'yes' ){
-		
-			wp_register_script( $this->_token . '-jquery-accordion', esc_url( $this->assets_url ) . 'js/jquery.accordion.js', array( 'jquery' ), $this->_version );
-			wp_enqueue_script( $this->_token . '-jquery-accordion' );			
+		if( is_product() ){
 			
-			wp_register_script( $this->_token . '-frontend', esc_url( $this->assets_url ) . 'js/frontend.js', array( 'jquery' ), $this->_version );
-			wp_enqueue_script( $this->_token . '-frontend' );	
+			if( $this->accordion == 'yes' ){
+			
+				wp_register_script( $this->_token . '-jquery-accordion', esc_url( $this->assets_url ) . 'js/jquery.accordion.js', array( 'jquery' ), $this->_version );
+				wp_enqueue_script( $this->_token . '-jquery-accordion' );			
+				
+				wp_register_script( $this->_token . '-frontend', esc_url( $this->assets_url ) . 'js/frontend.js', array( 'jquery' ), $this->_version );
+				wp_enqueue_script( $this->_token . '-frontend' );	
+			}
 		}
 		
 	} // End enqueue_scripts ()
@@ -681,7 +687,7 @@ class WooCommerce_Book_Chapter_Tab {
 		wp_register_style( $this->_token . '-admin', esc_url( $this->assets_url ) . 'css/admin.css', array(), $this->_version );
 		wp_enqueue_style( $this->_token . '-admin' );
 		
-		if( isset($_GET['page']) && $_GET['page'] == 'woocommerce-book-chapter-tab' ){
+		if( isset($_GET['page']) && $_GET['page'] == 'ecommerce-book-chapter-tab' ){
 		
 			wp_register_style( $this->_token . '-simpleLightbox', esc_url( $this->assets_url ) . 'css/simpleLightbox.min.css', array(), $this->_version );
 			wp_enqueue_style( $this->_token . '-simpleLightbox' );
@@ -700,7 +706,7 @@ class WooCommerce_Book_Chapter_Tab {
 		wp_register_script( $this->_token . '-admin', esc_url( $this->assets_url ) . 'js/admin.js', array( 'jquery' ), $this->_version );
 		wp_enqueue_script( $this->_token . '-admin' );
 		 
-		if( isset($_GET['page']) && $_GET['page'] == 'woocommerce-book-chapter-tab' ){
+		if( isset($_GET['page']) && $_GET['page'] == 'ecommerce-book-chapter-tab' ){
 		
 			wp_register_script( $this->_token . '-simpleLightbox', esc_url( $this->assets_url ) . 'js/simpleLightbox.min.js', array( 'jquery' ), $this->_version );
 			wp_enqueue_script( $this->_token . '-simpleLightbox' );
@@ -718,7 +724,7 @@ class WooCommerce_Book_Chapter_Tab {
 	 * @return  void
 	 */
 	public function load_localisation () {
-		load_plugin_textdomain( 'woocommerce-book-chapter-tab', false, dirname( plugin_basename( $this->file ) ) . '/lang/' );
+		load_plugin_textdomain( 'ecommerce-book-chapter-tab', false, dirname( plugin_basename( $this->file ) ) . '/lang/' );
 	} // End load_localisation ()
 
 	/**
@@ -729,7 +735,7 @@ class WooCommerce_Book_Chapter_Tab {
 	 */
 	public function load_plugin_textdomain () {
 		
-	    $domain = 'woocommerce-book-chapter-tab';
+	    $domain = 'ecommerce-book-chapter-tab';
 
 	    $locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
@@ -738,14 +744,14 @@ class WooCommerce_Book_Chapter_Tab {
 	} // End load_plugin_textdomain ()
 	
 	/**
-	 * Main WooCommerce_Book_Chapter_Tab Instance
+	 * Main ECommerce_Book_Chapter_Tab Instance
 	 *
-	 * Ensures only one instance of WooCommerce_Book_Chapter_Tab is loaded or can be loaded.
+	 * Ensures only one instance of ECommerce_Book_Chapter_Tab is loaded or can be loaded.
 	 *
 	 * @since 1.0.0
 	 * @static
-	 * @see WooCommerce_Book_Chapter_Tab()
-	 * @return Main WooCommerce_Book_Chapter_Tab instance
+	 * @see ECommerce_Book_Chapter_Tab()
+	 * @return Main ECommerce_Book_Chapter_Tab instance
 	 */
 	public static function instance ( $file = '', $version = '1.0.0' ) {
 		

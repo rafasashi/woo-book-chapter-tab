@@ -2,7 +2,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class WooCommerce_Book_Chapter_Tab_Admin_API {
+class ECommerce_Book_Chapter_Tab_Admin_API {
 
 	/**
 	 * Constructor function
@@ -160,8 +160,8 @@ class WooCommerce_Book_Chapter_Tab_Admin_API {
 					$image_thumb = wp_get_attachment_thumb_url( $data );
 				}
 				$html .= '<img id="' . $option_name . '_preview" class="image_preview" src="' . $image_thumb . '" /><br/>' . "\n";
-				$html .= '<input id="' . $option_name . '_button" type="button" data-uploader_title="' . __( 'Upload an image' , 'woocommerce-book-chapter-tab' ) . '" data-uploader_button_text="' . __( 'Use image' , 'woocommerce-book-chapter-tab' ) . '" class="image_upload_button button" value="'. __( 'Upload new image' , 'woocommerce-book-chapter-tab' ) . '" />' . "\n";
-				$html .= '<input id="' . $option_name . '_delete" type="button" class="image_delete_button button" value="'. __( 'Remove image' , 'woocommerce-book-chapter-tab' ) . '" />' . "\n";
+				$html .= '<input id="' . $option_name . '_button" type="button" data-uploader_title="' . __( 'Upload an image' , 'ecommerce-book-chapter-tab' ) . '" data-uploader_button_text="' . __( 'Use image' , 'ecommerce-book-chapter-tab' ) . '" class="image_upload_button button" value="'. __( 'Upload new image' , 'ecommerce-book-chapter-tab' ) . '" />' . "\n";
+				$html .= '<input id="' . $option_name . '_delete" type="button" class="image_delete_button button" value="'. __( 'Remove image' , 'ecommerce-book-chapter-tab' ) . '" />' . "\n";
 				$html .= '<input id="' . $option_name . '" class="image_data_field" type="hidden" name="' . $option_name . '" value="' . $data . '"/><br/>' . "\n";
 			break;
 
@@ -291,10 +291,10 @@ class WooCommerce_Book_Chapter_Tab_Admin_API {
 		}
 
 		if ( ! $echo ) {
-			return $html;
+			return wp_kses_normalize_entities($html);
 		}
 
-		echo $html;
+		echo wp_kses_normalize_entities($html);
 
 	}
 

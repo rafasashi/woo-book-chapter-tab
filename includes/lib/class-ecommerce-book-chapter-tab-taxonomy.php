@@ -2,7 +2,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class WooCommerce_Book_Chapter_Tab_Taxonomy {
+class ECommerce_Book_Chapter_Tab_Taxonomy {
 
 	/**
 	 * The name for the taxonomy.
@@ -72,20 +72,20 @@ class WooCommerce_Book_Chapter_Tab_Taxonomy {
             'name' => $this->plural,
             'singular_name' => $this->single,
             'menu_name' => $this->plural,
-            'all_items' => sprintf( __( 'All %s' , 'woocommerce-book-chapter-tab' ), $this->plural ),
-            'edit_item' => sprintf( __( 'Edit %s' , 'woocommerce-book-chapter-tab' ), $this->single ),
-            'view_item' => sprintf( __( 'View %s' , 'woocommerce-book-chapter-tab' ), $this->single ),
-            'update_item' => sprintf( __( 'Update %s' , 'woocommerce-book-chapter-tab' ), $this->single ),
-            'add_new_item' => sprintf( __( 'Add New %s' , 'woocommerce-book-chapter-tab' ), $this->single ),
-            'new_item_name' => sprintf( __( 'New %s Name' , 'woocommerce-book-chapter-tab' ), $this->single ),
-            'parent_item' => sprintf( __( 'Parent %s' , 'woocommerce-book-chapter-tab' ), $this->single ),
-            'parent_item_colon' => sprintf( __( 'Parent %s:' , 'woocommerce-book-chapter-tab' ), $this->single ),
-            'search_items' =>  sprintf( __( 'Search %s' , 'woocommerce-book-chapter-tab' ), $this->plural ),
-            'popular_items' =>  sprintf( __( 'Popular %s' , 'woocommerce-book-chapter-tab' ), $this->plural ),
-            'separate_items_with_commas' =>  sprintf( __( 'Separate %s with commas' , 'woocommerce-book-chapter-tab' ), $this->plural ),
-            'add_or_remove_items' =>  sprintf( __( 'Add or remove %s' , 'woocommerce-book-chapter-tab' ), $this->plural ),
-            'choose_from_most_used' =>  sprintf( __( 'Choose from the most used %s' , 'woocommerce-book-chapter-tab' ), $this->plural ),
-            'not_found' =>  sprintf( __( 'No %s found' , 'woocommerce-book-chapter-tab' ), $this->plural ),
+            'all_items' => sprintf( __( 'All %s' , 'ecommerce-book-chapter-tab' ), $this->plural ),
+            'edit_item' => sprintf( __( 'Edit %s' , 'ecommerce-book-chapter-tab' ), $this->single ),
+            'view_item' => sprintf( __( 'View %s' , 'ecommerce-book-chapter-tab' ), $this->single ),
+            'update_item' => sprintf( __( 'Update %s' , 'ecommerce-book-chapter-tab' ), $this->single ),
+            'add_new_item' => sprintf( __( 'Add New %s' , 'ecommerce-book-chapter-tab' ), $this->single ),
+            'new_item_name' => sprintf( __( 'New %s Name' , 'ecommerce-book-chapter-tab' ), $this->single ),
+            'parent_item' => sprintf( __( 'Parent %s' , 'ecommerce-book-chapter-tab' ), $this->single ),
+            'parent_item_colon' => sprintf( __( 'Parent %s:' , 'ecommerce-book-chapter-tab' ), $this->single ),
+            'search_items' =>  sprintf( __( 'Search %s' , 'ecommerce-book-chapter-tab' ), $this->plural ),
+            'popular_items' =>  sprintf( __( 'Popular %s' , 'ecommerce-book-chapter-tab' ), $this->plural ),
+            'separate_items_with_commas' =>  sprintf( __( 'Separate %s with commas' , 'ecommerce-book-chapter-tab' ), $this->plural ),
+            'add_or_remove_items' =>  sprintf( __( 'Add or remove %s' , 'ecommerce-book-chapter-tab' ), $this->plural ),
+            'choose_from_most_used' =>  sprintf( __( 'Choose from the most used %s' , 'ecommerce-book-chapter-tab' ), $this->plural ),
+            'not_found' =>  sprintf( __( 'No %s found' , 'ecommerce-book-chapter-tab' ), $this->plural ),
         );
 
         $args = array(

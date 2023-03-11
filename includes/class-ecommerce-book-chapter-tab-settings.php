@@ -2,10 +2,10 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class WooCommerce_Book_Chapter_Tab_Settings {
+class ECommerce_Book_Chapter_Tab_Settings {
 
 	/**
-	 * The single instance of WooCommerce_Book_Chapter_Tab_Settings.
+	 * The single instance of ECommerce_Book_Chapter_Tab_Settings.
 	 * @var 	object
 	 * @access  private
 	 * @since 	1.0.0
@@ -53,7 +53,7 @@ class WooCommerce_Book_Chapter_Tab_Settings {
 		add_action( 'admin_menu' , array( $this, 'add_menu_items' ) );
 
 		// Add settings link to plugins page
-		add_filter( 'plugin_action_links_' . plugin_basename( $this->parent->file ) , array( $this, 'add_settings_link' ) );
+		add_filter( 'plugin_action_links', array($this,'add_settings_link'),10,2);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class WooCommerce_Book_Chapter_Tab_Settings {
 			add_menu_page( 'rew_plugin_panel', 'Code Market', 'nosuchcapability', 'rew_plugin_panel', NULL, $logo, $position );
 		}
 
-		add_submenu_page( 'rew_plugin_panel', 'Book Chapter Tab', 'Book Chapter Tab', 'manage_options', 'woocommerce-book-chapter-tab', array( $this, 'settings_page' ) );
+		add_submenu_page( 'rew_plugin_panel', 'Book Chapter Tab', 'Book Chapter Tab', 'manage_options', 'ecommerce-book-chapter-tab', array( $this, 'settings_page' ) );
 		remove_submenu_page( 'rew_plugin_panel', 'rew_plugin_panel' );
 	}
 
@@ -123,11 +123,16 @@ class WooCommerce_Book_Chapter_Tab_Settings {
 	 * @param  array $links Existing links
 	 * @return array 		Modified links
 	 */
-	public function add_settings_link ( $links ) {
+	public function add_settings_link( $links, $file ) {
 		
-		$settings_link = '<a href="admin.php?page=' . $this->parent->_token . '">' . __( 'Settings', 'woocommerce-book-chapter-tab' ) . '</a>';
-  		array_push( $links, $settings_link );
-  		return $links;
+		if( strpos( $file, basename( $this->parent->file ) ) !== false ) {
+			
+			$settings_link = '<a href="' . get_admin_url(null,'admin.php?page=wc-settings&tab=products&section=rew-tabs') . '">' . __( 'Settings', 'ecommerce-book-chapter-tab' ) . '</a>';
+			
+			array_push( $links, $settings_link );
+  		}
+		
+		return $links;
 	}
 
 	/**
@@ -151,13 +156,13 @@ class WooCommerce_Book_Chapter_Tab_Settings {
 			$current_section = '';
 			if ( isset( $_POST['tab'] ) && $_POST['tab'] ) {
 				
-				$current_section = $_POST['tab'];
+				$current_section = sanitize_text_field($_POST['tab']);
 			} 
 			else {
 				
 				if ( isset( $_GET['tab'] ) && $_GET['tab'] ) {
 					
-					$current_section = $_GET['tab'];
+					$current_section = sanitize_text_field($_GET['tab']);
 				}
 			}
 
@@ -193,7 +198,7 @@ class WooCommerce_Book_Chapter_Tab_Settings {
 	public function settings_section ( $section ) {
 		
 		$html = '<p> ' . $this->settings[ $section['id'] ]['description'] . '</p>' . "\n";
-		echo $html;
+		echo wp_kses_normalize_entities($html);
 	}
 
 	/**
@@ -207,7 +212,7 @@ class WooCommerce_Book_Chapter_Tab_Settings {
 		// Build page HTML
 		$html = '<div class="wrap" id="' . $this->parent->_token . '_settings">' . "\n";
 			
-			$html .= '<h2>' . __( $plugin_data['Name'] , 'woocommerce-book-chapter-tab' ) . '</h2>' . "\n";
+			$html .= '<h2>' . __( $plugin_data['Name'] , 'ecommerce-book-chapter-tab' ) . '</h2>' . "\n";
 
 			$tab = '';
 			if ( isset( $_GET['tab'] ) && $_GET['tab'] ) {
@@ -264,18 +269,18 @@ class WooCommerce_Book_Chapter_Tab_Settings {
 		
 		$html .= '</div>';
 
-		echo $html;
+		echo wp_kses_normalize_entities($html);
 	}
 
 	/**
-	 * Main WooCommerce_Book_Chapter_Tab_Settings Instance
+	 * Main ECommerce_Book_Chapter_Tab_Settings Instance
 	 *
-	 * Ensures only one instance of WooCommerce_Book_Chapter_Tab_Settings is loaded or can be loaded.
+	 * Ensures only one instance of ECommerce_Book_Chapter_Tab_Settings is loaded or can be loaded.
 	 *
 	 * @since 1.0.0
 	 * @static
-	 * @see WooCommerce_Book_Chapter_Tab()
-	 * @return Main WooCommerce_Book_Chapter_Tab_Settings instance
+	 * @see ECommerce_Book_Chapter_Tab()
+	 * @return Main ECommerce_Book_Chapter_Tab_Settings instance
 	 */
 	public static function instance ( $parent ) {
 		if ( is_null( self::$_instance ) ) {

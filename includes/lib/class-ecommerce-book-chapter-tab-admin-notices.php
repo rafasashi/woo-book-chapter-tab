@@ -2,10 +2,10 @@
 
 	if ( ! defined( 'ABSPATH' ) ) exit;
 
-	class WooCommerce_Book_Chapter_Tab_Admin_Notices {
+	class ECommerce_Book_Chapter_Tab_Admin_Notices {
 		
 		/**
-		 * The single instance of WooCommerce_Book_Chapter_Tab_Admin_Notices.
+		 * The single instance of ECommerce_Book_Chapter_Tab_Admin_Notices.
 		 * @var 	object
 		 * @access  private
 		 * @since 	1.0.0

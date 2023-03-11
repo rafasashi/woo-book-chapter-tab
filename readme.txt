@@ -1,10 +1,10 @@
-=== WooCommerce Book Chapter Tab ===
+=== Book Chapter Tab ===
 Contributors: rafasashi
 Tags: ecommerce, e-commerce, woocommerce, book, ebook, documentation, chapter, chapters, sections, product tab
 Donate link: https://code.recuweb.com/download/woocommerce-book-chapter-tab/
 Requires at least: 4.6
-Tested up to: 5.3
-Stable tag: 3.0.6
+Tested up to: 6.1.1
+Stable tag: 3.0.8
 License: GPLv3
 License URI: https://code.recuweb.com/product-licenses/
 
@@ -12,7 +12,7 @@ Allows you to display the Chapters and Sections of a book or ebook in a new tab 
 
 == Description ==
 
-Extends WooCommerce to allow you to display the Chapters and Sections of a book, ebook or documentation in a new tab on the single product page.
+Extends WC to allow you to display the Chapters and Sections of a book, ebook or documentation in a new tab on the single product page.
 
 = Free Features =
 
@@ -29,7 +29,7 @@ Extends WooCommerce to allow you to display the Chapters and Sections of a book,
 – TAB POSITION – Change the position of the Tab name in the frontend.
 – SHOW EMPTY – Show or hide empty Tab when a product doesn't contain any Chapters.
  
-More information about [WooCommerce Book Chapter Tab](https://code.recuweb.com/download/woocommerce-book-chapter-tab/)
+More information about [Book Chapter Tab](https://code.recuweb.com/download/woocommerce-book-chapter-tab/)
 
 = Localization =
 
@@ -43,13 +43,13 @@ For all documentation on this plugin go to: [https://code.recuweb.com/download/w
 
 = Minimum Requirements =
 
-* WooCommerce 2.0 or higher.
+* WC 2.0 or higher.
 
 = Automatic installation =
 
-Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't even need to leave your web browser. To do an automatic install of WooCommerce Book Chapter Tab, log in to your WordPress admin panel, navigate to the Plugins menu and click Add New.
+Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't even need to leave your web browser. To do an automatic install of Book Chapter Tab, log in to your WordPress admin panel, navigate to the Plugins menu and click Add New.
 
-In the search field type "WooCommerce Book Chapter Tab" and click Search Plugins. Once you've found my plugin extension you can view details about it such as the the point release, rating and description. Most importantly of course, you can install it by simply clicking Install Now. After clicking that link you will be asked if you're sure you want to install the plugin. Click yes and WordPress will automatically complete the installation.
+In the search field type "Book Chapter Tab" and click Search Plugins. Once you've found my plugin extension you can view details about it such as the the point release, rating and description. Most importantly of course, you can install it by simply clicking Install Now. After clicking that link you will be asked if you're sure you want to install the plugin. Click yes and WordPress will automatically complete the installation.
 
 = Manual installation =
 
